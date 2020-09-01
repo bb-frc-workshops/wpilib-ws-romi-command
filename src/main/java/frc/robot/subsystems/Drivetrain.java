@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
+  private static final double kCountsPerRevolution = 1440.0;
+  private static final double kWheelDiameterInch = 2.75;
+
   // The Romi has the left and right motors set to
   // PWM channels 0 and 1 respectively
   private Spark m_leftMotor = new Spark(0);
@@ -30,11 +33,36 @@ public class Drivetrain extends SubsystemBase {
    * Creates a new Drivetrain.
    */
   public Drivetrain() {
-
+    // DifferentialDrive defaults to having the right side flipped
+    // We don't need to do this because the Romi has accounted for this
+    // in firmware/hardware
+    m_diffDrive.setRightSideInverted(false);
+    resetEncoders();
   }
 
   public void arcadeDrive(double xSpeed, double zRotate) {
     m_diffDrive.arcadeDrive(xSpeed, zRotate);
+  }
+
+  public void resetEncoders() {
+    m_leftEncoder.reset();
+    m_rightEncoder.reset();
+  }
+
+  public int getLeftEncoderCount() {
+    return m_leftEncoder.get();
+  }
+
+  public int getRightEncoderCount() {
+    return m_rightEncoder.get();
+  }
+
+  public double getLeftDistanceInch() {
+    return Math.PI * kWheelDiameterInch * (getLeftEncoderCount() / kCountsPerRevolution);
+  }
+
+  public double getRightDistanceInch() {
+    return Math.PI * kWheelDiameterInch * (getRightEncoderCount() / kCountsPerRevolution);
   }
 
   @Override

@@ -15,6 +15,8 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.OnBoardIO;
 import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -57,7 +59,15 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Also set default commands here
-    m_drivetrain.setDefaultCommand(new TeleopArcadeDrive(m_drivetrain, () -> m_controller.getRawAxis(1), () -> m_controller.getRawAxis(2)));
+    m_drivetrain.setDefaultCommand(new TeleopArcadeDrive(m_drivetrain, 
+                                                         () -> m_controller.getRawAxis(1), 
+                                                         () -> -m_controller.getRawAxis(2)));
+
+    // Example of how to use the onboard IO
+    Button onboardButtonA = new Button(m_onboardIO::getButtonAPressed);
+    onboardButtonA
+    .whenActive(new PrintCommand("Button A Pressed"))
+    .whenInactive(new PrintCommand("Button A Released"));
   }
 
 
