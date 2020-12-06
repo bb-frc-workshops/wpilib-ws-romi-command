@@ -7,7 +7,7 @@ public class RomiAccelerometer {
     private SimDouble m_simAccelZ;
     private SimDouble m_simAccelSensitivity;
 
-    public SimAccelerometer(int sensitivity) {
+    public RomiAccelerometer(int sensitivity) {
         m_simDevice = SimDevice.create("Accel:BuiltInAccelerometer");
         if (m_simDevice != null) {
             System.out.println("Creating SimValues");

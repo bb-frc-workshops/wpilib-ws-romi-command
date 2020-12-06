@@ -9,7 +9,7 @@ public class RomiGyro {
     private SimDouble m_simAngleY;
     private SimDouble m_simAngleZ;
 
-    public SimGyro() {
+    public RomiGyro() {
         m_simDevice = SimDevice.create("Gyro:RomiGyro");
         if (m_simDevice != null) {
             m_simRateX = m_simDevice.createDouble("rateX", false, 0.0);
